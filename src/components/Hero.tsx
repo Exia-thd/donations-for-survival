@@ -2,6 +2,7 @@ import { lazy, Suspense, useMemo } from 'react'
 import { motion } from 'motion/react'
 import { useSurvival, moodOf } from '../store'
 import { useT } from '../i18n'
+import { QuickQr } from './QuickQr'
 import { supportsWebGL } from '../lib/hooks'
 
 const Scene = lazy(() => import('../three/Scene'))
@@ -78,6 +79,7 @@ export function Hero() {
             {t.hero.cta2}
           </a>
         </motion.div>
+        <QuickQr />
         <p className="mt-4 font-mono text-xs text-muted">{t.hero.tip}</p>
       </div>
 

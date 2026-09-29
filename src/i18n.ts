@@ -49,6 +49,10 @@ const vi = {
     loading: 'Đang nấu cơm… (loading 3D)',
     noWebgl: ['Máy bạn không chạy được WebGL.', 'Giống như dev không chạy được nếu thiếu cơm.'],
     canvasLabel: 'Cảnh 3D: một lập trình viên đói ngồi cạnh bát cơm gần như rỗng. Bấm để thả xu.',
+    qrTitle: '📱 Quét phát là dev có cơm',
+    qrSub: 'Mở app ngân hàng, quét mã, nhập số tiền tuỳ lòng thương.',
+    qrMore: 'hoặc chọn gói cứu trợ cụ thể ↓',
+    qrAlt: 'Mã QR chuyển khoản BIDV để donate',
   },
   ticker: {
     label: 'Tin nóng',
@@ -198,6 +202,10 @@ const en: Dict = {
     loading: 'Cooking rice… (loading 3D)',
     noWebgl: ["Your device can't run WebGL.", "Just like a developer can't run without rice."],
     canvasLabel: 'A 3D scene: a hungry developer next to an almost empty rice bowl. Click to drop coins.',
+    qrTitle: '📱 One scan = one fed developer',
+    qrSub: 'Open any Vietnamese banking app, scan, and enter whatever your heart says.',
+    qrMore: 'or pick a specific rescue package ↓',
+    qrAlt: 'BIDV bank transfer QR code for donations',
   },
   ticker: {
     label: 'Breaking news',

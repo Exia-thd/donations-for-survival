@@ -18,6 +18,14 @@ This project establishes a direct pipeline for compassionate souls to inject fun
 * **Bug Shielding:** Higher blood sugar levels mathematically correlate with fewer production incidents on Fridays.
 * **Zero ROI:** You get 0% financial return, but maximum emotional satisfaction knowing you kept a sentient being alive.
 
+### 🏔️ The Ascent — hành trình cuộn (WHITEOUT style)
+Section `#journey` (`src/journey/`): cuộn trang = leo từ phòng trọ 12m² lên **Đỉnh Cơm Tấm** trong 6 chương.
+* Thế giới 100% procedural, không ảnh/model: height field từ fBm + ridged noise viết tay, đường mòn được "mài" êm quanh tuyến leo.
+* Camera đi trên `CatmullRomCurve3` lấy mẫu theo độ dài cung; nhịp cuộn phi tuyến (bảng `PACE`) + giảm chấn, luôn giữ khoảng hở với mặt đất.
+* Khí quyển theo keyframe: vòm trời shader (gradient, mặt trời, sao hash), `FogExp2`, đèn mặt trời/hemisphere; chương 3 là **WHITEOUT** (sương mù não).
+* Tuyết GPU cuộn vòng quanh camera, gió từ vận tốc chuột; props instanced: vỏ mì đánh dấu đường, mắt bug đỏ, dây thừng Tube + cờ bay bằng vertex shader, tượng đài cốc mì, bát cơm tấm khổng lồ bốc khói.
+* Hậu kỳ tự viết (render target → vignette + grain + quang sai), loading screen dựng địa hình theo job queue, chất lượng thích ứng, tôn trọng `prefers-reduced-motion`, chỉ render khi section đang hiển thị; engine tải lười (~20KB).
+
 ### 🎮 Interactive bits
 * **Chọc dev** trong cảnh 3D đầu trang → anh ấy nhảy lên và than đói (bong bóng thoại `drei <Html>`).
 * **Arcade** (`src/arcade/`): 2 mini-game 3D chạy **Three.js WebGPURenderer + TSL node materials**, tự fallback WebGL2:

@@ -70,10 +70,11 @@ function Rig() {
   return null
 }
 
-function ArcadeCanvas({ onBackend }: { onBackend: (b: string) => void }) {
+function ArcadeCanvas({ onBackend, active = true }: { onBackend: (b: string) => void; active?: boolean }) {
   const game = useArcade((s) => s.game)
   return (
     <Canvas
+      frameloop={active ? 'always' : 'never'}
       dpr={[1, 2]}
       camera={{ position: [0, 2.2, 6.2], fov: 45 }}
       gl={async (props) => {

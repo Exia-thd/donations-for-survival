@@ -60,6 +60,15 @@ Palette: nền mực đen ấm (`oklch`), vàng **mì tôm**, đỏ **tương �
 8. **Donate**: QR **VietQR tự sinh theo đúng số tiền từng tier**, nút copy STK/nội dung, lệnh `curl` minh hoạ, nút *"Tôi đã chuyển khoản (hoặc ít nhất đã thương)"* → confetti + bát đầy + toast.
 9. **FAQ** + **Footer** glitch "ZERO ROI."
 
+## 4b. The Ascent (scroll journey — áp dụng skill threejs-scroll-journey)
+
+| Phase | Đã làm |
+| --- | --- |
+| 1 · Skeleton | Terrain 4000×4000 (300 seg desktop / 180 mobile) từ fBm + ridged; route CatmullRom đặt trên mặt đất, arc-length 4000 divisions; progress cuộn trong section → `pace()` → u, giảm chấn `1-exp(-dt·k)`; overlay 6 chương fade bằng smoothstep; `FogExp2`. |
+| 2 · Atmosphere | Sky dome BackSide shader (gradient, sun disc + halo, sao hash nhấp nháy, haze); 10 keyframe khí quyển (fog màu/mật độ nội suy log, sky, sun hướng/màu/cường độ, hemi, tuyết); beat WHITEOUT ở chương 3. |
+| 3 · Life & detail | Tuyết Points shader wrap quanh camera + gió chuột (bỏ qua touch); bảng nhịp phi tuyến; InstancedMesh đá/vỏ mì/mắt bug/cọc; Tube rope; cờ sóng bằng `onBeforeCompile`; bát cơm tấm + khói; post vignette/grain/CA qua render target. |
+| 4 · Boot & polish | Loading screen + job queue theo ngân sách 12ms/frame + precompile shader; adaptive quality (>20ms → giảm pixel ratio & số hạt); reduced-motion; resize; dt clamp 0.1s; chỉ render khi in-view; hero & arcade canvas cũng tự dừng khi khuất. |
+
 ## 5. Accessibility & chất lượng
 
 - Tôn trọng `prefers-reduced-motion` (tắt Lenis, animation, view transition).

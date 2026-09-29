@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import confetti from 'canvas-confetti'
 import { useArcade, GAME_SECONDS, type GameId } from '../arcade/store'
 import { useT } from '../i18n'
-import { supportsWebGL } from '../lib/hooks'
+import { supportsWebGL, useInView } from '../lib/hooks'
 
 const ArcadeCanvas = lazy(() => import('../arcade/ArcadeCanvas'))
 
@@ -16,6 +16,7 @@ export function Arcade() {
   const [visible, setVisible] = useState(false)
   const bestBefore = useRef(0)
   const webgl = useMemo(supportsWebGL, [])
+  const [boxRef, boxInView] = useInView<HTMLDivElement>()
   const onBackend = useCallback((b: string) => setBackend(b), [])
 
   // chỉ tải canvas khi cuộn tới gần — không làm nặng lần tải đầu
@@ -57,10 +58,10 @@ export function Arcade() {
         )}
       </div>
 
-      <div ref={sentinel} className="relative mt-4 aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-black sm:aspect-[16/9]">
+      <div ref={(el) => { sentinel(el); boxRef(el) }} className="relative mt-4 aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-black sm:aspect-[16/9]">
         {webgl && visible ? (
           <Suspense fallback={<div className="grid h-full place-items-center font-mono text-sm text-muted">{t.loading}</div>}>
-            <ArcadeCanvas onBackend={onBackend} />
+            <ArcadeCanvas onBackend={onBackend} active={boxInView} />
           </Suspense>
         ) : (
           <div className="grid h-full place-items-center font-mono text-sm text-muted">{webgl ? t.loading : '🥣 WebGL/WebGPU ✗'}</div>

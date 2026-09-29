@@ -11,6 +11,7 @@ import { Faq } from './components/Faq'
 import { Donate } from './components/Donate'
 import { Footer } from './components/Footer'
 import { Arcade } from './components/Arcade'
+import { Journey } from './components/Journey'
 import { useSurvival } from './store'
 import { prefersReducedMotion, useGuiltTrip } from './lib/hooks'
 import { applyDocumentLang, useLang } from './i18n'
@@ -39,6 +40,7 @@ export default function App() {
       <main>
         <Hero />
         <Ticker />
+        <Journey />
         <Vitals />
         <Tiers />
         <Menu />

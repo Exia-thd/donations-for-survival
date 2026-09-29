@@ -46,3 +46,16 @@ export function useTicker(ms: number) {
   }, [ms])
   return n
 }
+
+/** true khi phần tử đang nằm trong (hoặc gần) khung nhìn — dùng để dừng render WebGL khi khuất. */
+export function useInView<T extends Element>(rootMargin = '100px') {
+  const [el, setEl] = useState<T | null>(null)
+  const [inView, setInView] = useState(true)
+  useEffect(() => {
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { rootMargin })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [el, rootMargin])
+  return [setEl, inView] as const
+}

@@ -24,13 +24,14 @@ function Steam() {
   return <Sparkles count={Math.round(fed / 2)} scale={[1.6, 1.8, 1.6]} position={[0, 1.9, 0]} size={4} speed={0.6} color="#fff4d6" opacity={0.6} />
 }
 
-export default function Scene({ label }: { label: string }) {
+export default function Scene({ label, active = true }: { label: string; active?: boolean }) {
   const [hq, setHq] = useState(true)
   const powerSaving = useSurvival((s) => s.powerSaving)
   const dropCoins = useSurvival((s) => s.dropCoins)
 
   return (
     <Canvas
+      frameloop={active ? 'always' : 'never'}
       shadows
       dpr={[1, 2]}
       camera={{ position: [0.35, 3, 6.6], fov: 40 }}

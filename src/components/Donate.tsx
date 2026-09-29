@@ -12,7 +12,7 @@ function CopyRow({ label, value }: { label: string; value: string }) {
     <div className="flex items-center justify-between gap-3 rounded-xl bg-white/5 px-4 py-3">
       <div className="min-w-0">
         <p className="font-mono text-[11px] text-muted">{label}</p>
-        <p className="truncate font-bold">{value || t.notSet}</p>
+        <p className="break-words font-bold">{value || t.notSet}</p>
       </div>
       {value && (
         <button
@@ -62,9 +62,9 @@ export function Donate() {
       <p className="font-mono text-sm text-noodle">{t.kicker}</p>
       <h2 className="mt-2 text-4xl font-black sm:text-5xl">{t.title}</h2>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+      <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         {/* QR */}
-        <div className="reveal rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="reveal min-w-0 rounded-3xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
           <div className="mb-4 flex flex-wrap gap-2">
             {TIERS.map((t) => (
               <button
@@ -93,7 +93,7 @@ export function Donate() {
                   key={qr} src={qr} alt={t.qrAlt(formatVND(amount))}
                   initial={{ opacity: 0, scale: 0.9, rotate: -3 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 0.9 }}
                   onError={() => setQrFailed(true)}
-                  className="size-full object-contain"
+                  className="mx-auto h-full w-auto max-w-full rounded-[6%] object-contain"
                 />
               ) : (
                 <motion.div key="ph" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid size-full place-items-center rounded-xl border-4 border-dashed border-ink/30 p-6 text-center text-ink">
@@ -113,8 +113,8 @@ export function Donate() {
         </div>
 
         {/* Bank info + CTA */}
-        <div className="reveal flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-          <pre className="overflow-x-auto rounded-xl bg-black/60 p-4 font-mono text-xs leading-6 text-muted">
+        <div className="reveal flex min-w-0 flex-col gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
+          <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-xl bg-black/60 p-3 font-mono text-[11px] leading-5 text-muted sm:p-4 sm:text-xs sm:leading-6">
 {`$ curl -X ${selected.method} https://dev.local${selected.path} \\
     -H "Content-Type: ${t.contentType}" \\
     -d '{ "amount": ${amount}, "currency": "VND" }'

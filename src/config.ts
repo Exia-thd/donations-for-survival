@@ -6,10 +6,12 @@
  * Để trống `accountNo` thì trang sẽ hiện ô QR placeholder thay vì QR thật.
  */
 export const DONATE = {
-  bankId: '', // vd: 'mb'
-  bankName: 'Ngân hàng Tình Thương', // hiển thị cho người xem
-  accountNo: '', // vd: '0123456789'
-  accountName: 'NGUYEN VAN DEV', // viết hoa không dấu
+  bankId: 'bidv', // BIN 970418
+  bankName: 'BIDV — Ngân hàng TMCP Đầu tư và Phát triển Việt Nam', // hiển thị cho người xem
+  accountNo: '1440206408',
+  accountName: 'TRAN HUU DAT', // viết hoa không dấu
+  /** Ảnh QR tĩnh (không kèm số tiền) — dùng khi không tải được QR động từ VietQR. */
+  staticQr: './qr-bidv.jpg',
   message: 'Cuu doi dev', // nội dung chuyển khoản mặc định
   /** Link dự phòng (Ko-fi, Buy Me a Coffee, Momo...). Để '' nếu không có. */
   altLinks: [] as { label: string; href: string }[],
@@ -21,9 +23,6 @@ export type Tier = {
   path: string
   amount: number // VND, 0 = tự nhập
   emoji: string
-  title: string
-  outcome: string
-  latency: string
   coins: number // số đồng xu rơi vào bát 3D
 }
 
@@ -34,9 +33,6 @@ export const TIERS: Tier[] = [
     path: '/coffee',
     amount: 20_000,
     emoji: '☕',
-    title: 'Nửa ly cà phê đen',
-    outcome: 'Hoãn một cơn đau đầu nhẹ. Fix được 1 bug typo.',
-    latency: '~200ms tới não',
     coins: 6,
   },
   {
@@ -45,9 +41,6 @@ export const TIERS: Tier[] = [
     path: '/meal',
     amount: 50_000,
     emoji: '🍚',
-    title: 'Một dĩa cơm tấm tử tế',
-    outcome: 'Giữ logic mạch lạc ít nhất 4 tiếng. Có sườn, có bì, có hy vọng.',
-    latency: '201 Created (một con người mới)',
     coins: 14,
   },
   {
@@ -56,9 +49,6 @@ export const TIERS: Tier[] = [
     path: '/sanity',
     amount: 200_000,
     emoji: '🧠',
-    title: 'Bảo trì sức khoẻ tâm thần',
-    outcome: 'Ngăn chặn rage-quit lúc 2h sáng. Không deploy thứ Sáu nữa (hứa).',
-    latency: 'idempotent — ủng hộ nhiều lần vẫn vui như nhau',
     coins: 30,
   },
   {
@@ -67,15 +57,17 @@ export const TIERS: Tier[] = [
     path: '/custom',
     amount: 0,
     emoji: '🎲',
-    title: 'Lòng hảo tâm vô điều kiện',
-    outcome: 'Bao nhiêu cũng quý. 1.000đ cũng mua được… nửa gói muối.',
-    latency: 'phụ thuộc vào lòng tốt',
     coins: 10,
   },
 ]
 
 export const formatVND = (n: number) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(n)
+
+/** Quy đổi gần đúng cho khách nước ngoài (chỉ để tham khảo). */
+export const VND_PER_USD = 26_000
+export const formatUSD = (vnd: number) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(vnd / VND_PER_USD)
 
 export const vietQrUrl = (amount: number, note = DONATE.message) => {
   if (!DONATE.bankId || !DONATE.accountNo) return null

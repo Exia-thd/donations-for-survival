@@ -24,7 +24,7 @@ function Steam() {
   return <Sparkles count={Math.round(fed / 2)} scale={[1.6, 1.8, 1.6]} position={[0, 1.9, 0]} size={4} speed={0.6} color="#fff4d6" opacity={0.6} />
 }
 
-export default function Scene() {
+export default function Scene({ label }: { label: string }) {
   const [hq, setHq] = useState(true)
   const powerSaving = useSurvival((s) => s.powerSaving)
   const dropCoins = useSurvival((s) => s.dropCoins)
@@ -37,7 +37,7 @@ export default function Scene() {
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       onPointerDown={() => dropCoins(1)}
       onCreated={({ camera }) => camera.lookAt(0.35, 0.55, 0)}
-      aria-label="Cảnh 3D: một lập trình viên đói ngồi cạnh bát cơm gần như rỗng. Bấm để thả xu."
+      aria-label={label}
     >
       <PerformanceMonitor onDecline={() => setHq(false)} />
       <AdaptiveDpr pixelated />

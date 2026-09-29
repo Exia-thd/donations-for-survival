@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getT } from '../i18n'
 
 export function supportsWebGL() {
   try {
@@ -28,9 +29,9 @@ export function withViewTransition(update: () => void) {
 /** Đổi tiêu đề tab khi người xem bỏ đi. */
 export function useGuiltTrip() {
   useEffect(() => {
-    const original = document.title
     const onVis = () => {
-      document.title = document.hidden ? '😢 Đừng đi mà… bát cơm vẫn rỗng' : original
+      const t = getT()
+      document.title = document.hidden ? t.meta.guilt : t.meta.title
     }
     document.addEventListener('visibilitychange', onVis)
     return () => document.removeEventListener('visibilitychange', onVis)

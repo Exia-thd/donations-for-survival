@@ -1,11 +1,15 @@
 import { useSurvival, moodOf } from '../store'
 import { withViewTransition } from '../lib/hooks'
+import { useLang, useT } from '../i18n'
 
 export function Nav() {
   const fed = useSurvival((s) => s.fed)
   const powerSaving = useSurvival((s) => s.powerSaving)
   const toggle = useSurvival((s) => s.togglePowerSaving)
   const mood = moodOf(fed)
+  const t = useT()
+  const lang = useLang((s) => s.lang)
+  const setLang = useLang((s) => s.setLang)
 
   const onToggle = () =>
     withViewTransition(() => {
@@ -28,12 +32,23 @@ export function Nav() {
           <button
             onClick={onToggle}
             className="ml-2 rounded-full border border-white/15 px-3 py-1 hover:bg-white/10"
-            title="Tắt màu cho đỡ tốn điện (thật ra không đỡ)"
+            title={t.nav.powerTitle}
           >
-            {powerSaving ? '🔌 Có điện rồi' : '🪫 Tiết kiệm điện'}
+            <span className="sm:hidden">{powerSaving ? '🔌' : '🪫'}</span>
+            <span className="hidden sm:inline">{powerSaving ? t.nav.powerOn : t.nav.powerSave}</span>
+          </button>
+          <button
+            onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')}
+            className="flex overflow-hidden rounded-full border border-white/15"
+            title={t.nav.switchTo}
+            aria-label={t.nav.switchTo}
+          >
+            {(['vi', 'en'] as const).map((l) => (
+              <span key={l} className={`px-2 py-1 font-bold uppercase ${l === lang ? 'bg-paper text-ink' : 'text-muted'}`}>{l}</span>
+            ))}
           </button>
           <a href="#donate" className="rounded-full bg-noodle px-3 py-1 font-bold text-ink hover:brightness-110">
-            Cứu đói
+            {t.nav.cta}
           </a>
         </div>
       </header>

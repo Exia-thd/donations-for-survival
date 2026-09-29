@@ -31,12 +31,7 @@ export const useSurvival = create<State>((set) => ({
   togglePowerSaving: () => set((s) => ({ powerSaving: !s.powerSaving })),
 }))
 
-export const moodOf = (fed: number) =>
-  fed < 20 ? 'dying' : fed < 50 ? 'hungry' : fed < 85 ? 'okay' : 'blessed'
+export type Mood = 'dying' | 'hungry' | 'okay' | 'blessed'
 
-export const MOOD_TEXT: Record<ReturnType<typeof moodOf>, string> = {
-  dying: 'CRITICAL · đang chạy bằng niềm tin',
-  hungry: 'WARN · bụng kêu to hơn quạt laptop',
-  okay: 'OK · đã có thể nghĩ về kiến trúc microservice',
-  blessed: 'BLESSED · sẵn sàng refactor cả thế giới',
-}
+export const moodOf = (fed: number): Mood =>
+  fed < 20 ? 'dying' : fed < 50 ? 'hungry' : fed < 85 ? 'okay' : 'blessed'

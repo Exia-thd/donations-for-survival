@@ -12,9 +12,12 @@ import { Donate } from './components/Donate'
 import { Footer } from './components/Footer'
 import { useSurvival } from './store'
 import { prefersReducedMotion, useGuiltTrip } from './lib/hooks'
+import { applyDocumentLang, useLang } from './i18n'
 
 export default function App() {
   useGuiltTrip()
+  const lang = useLang((s) => s.lang)
+  useEffect(() => applyDocumentLang(lang), [lang])
 
   // đói dần theo thời gian
   useEffect(() => {

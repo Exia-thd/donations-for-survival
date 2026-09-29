@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
-import { TIERS, formatVND, type Tier } from '../config'
+import { TIERS, formatVND, formatUSD, type Tier } from '../config'
+import { useLang, useT } from '../i18n'
 import { useSurvival } from '../store'
 import { spotlight } from '../lib/hooks'
 
@@ -11,6 +12,9 @@ function TierCard({ tier }: { tier: Tier }) {
   const selected = useSurvival((s) => s.selected.id === tier.id)
   const select = useSurvival((s) => s.select)
   const dropCoins = useSurvival((s) => s.dropCoins)
+  const t = useT()
+  const lang = useLang((s) => s.lang)
+  const copy = t.tiers.items[tier.id]
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const rx = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { stiffness: 200, damping: 20 })
@@ -41,24 +45,25 @@ function TierCard({ tier }: { tier: Tier }) {
         <span>{tier.path}</span>
       </div>
       <div className="mt-6 text-6xl">{tier.emoji}</div>
-      <h3 className="mt-4 text-xl font-bold">{tier.title}</h3>
-      <p className="mt-1 text-3xl font-black text-noodle">{tier.amount ? formatVND(tier.amount) : 'Tuỳ tâm'}</p>
-      <p className="mt-3 flex-1 text-sm text-muted">{tier.outcome}</p>
+      <h3 className="mt-4 text-xl font-bold">{copy.title}</h3>
+      <p className="mt-1 text-3xl font-black text-noodle">{tier.amount ? formatVND(tier.amount) : t.tiers.anyAmount}</p>
+      {lang === 'en' && tier.amount > 0 && <p className="font-mono text-xs text-muted">≈ {formatUSD(tier.amount)}</p>}
+      <p className="mt-3 flex-1 text-sm text-muted">{copy.outcome}</p>
       <p className="mt-5 border-t border-white/10 pt-3 font-mono text-[11px] text-muted">
-        response: <span className="text-broke">{tier.latency}</span>
+        response: <span className="text-broke">{copy.latency}</span>
       </p>
     </motion.button>
   )
 }
 
 export function Tiers() {
+  const t = useT()
   return (
     <section id="tiers" className="mx-auto max-w-6xl px-4 py-28">
-      <p className="font-mono text-sm text-noodle">// 02 — contribution tiers (API endpoints)</p>
-      <h2 className="mt-2 text-4xl font-black sm:text-5xl">Chọn endpoint để gọi</h2>
+      <p className="font-mono text-sm text-noodle">{t.tiers.kicker}</p>
+      <h2 className="mt-2 text-4xl font-black sm:text-5xl">{t.tiers.title}</h2>
       <p className="mt-2 max-w-2xl text-muted">
-        Tất cả endpoint đều trả về <code className="font-mono text-paper">200 OK</code> cho lương tâm của bạn. Zero ROI, nhưng
-        maximum cảm giác mình là người tốt.
+        {t.tiers.lead1} <code className="font-mono text-paper">200 OK</code> {t.tiers.lead2}
       </p>
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {TIERS.map((t) => (

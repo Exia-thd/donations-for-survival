@@ -1,4 +1,6 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Html } from '@react-three/drei'
+import { useT } from '../i18n'
 import * as THREE from 'three'
 import { useFrame, type ThreeElements } from '@react-three/fiber'
 import { useSurvival } from '../store'
@@ -14,6 +16,18 @@ export function Dev(props: ThreeElements['group']) {
   const mouth = useRef<THREE.Mesh>(null)
   const sweat = useRef<THREE.Mesh>(null)
   const cheeks = useRef<THREE.Group>(null)
+  const poke = useSurvival((s) => s.poke)
+  const pokeDev = useSurvival((s) => s.pokeDev)
+  const lines = useT().hero.poke
+  const [bubble, setBubble] = useState<string | null>(null)
+  const overlay = useRef<HTMLElement>(document.getElementById('scene-overlay') ?? document.body)
+
+  useEffect(() => {
+    if (!poke) return
+    setBubble(lines[poke.id % lines.length])
+    const id = setTimeout(() => setBubble(null), 2600)
+    return () => clearTimeout(id)
+  }, [poke, lines])
 
   useFrame(({ pointer, clock }, dt) => {
     const fed = useSurvival.getState().fed
@@ -21,6 +35,9 @@ export function Dev(props: ThreeElements['group']) {
     const hunger = 1 - fed / 100
     if (root.current) {
       // run rẩy vì đói + thở nhẹ
+      // bị chọc: nhảy lên rồi rơi xuống (parabol 0.6s)
+      const since = poke ? (performance.now() - poke.at) / 1000 : 9
+      root.current.position.y = since < 0.6 ? Math.sin((since / 0.6) * Math.PI) * 0.6 : 0
       root.current.position.x = Math.sin(t * 40) * 0.012 * Math.max(0, hunger - 0.6) * 2.5
       root.current.scale.y = THREE.MathUtils.damp(root.current.scale.y, 1 + Math.sin(t * 2) * 0.015, 8, dt)
       root.current.rotation.z = THREE.MathUtils.damp(root.current.rotation.z, hunger * 0.12, 2, dt)
@@ -50,7 +67,22 @@ export function Dev(props: ThreeElements['group']) {
 
   return (
     <group {...props}>
-      <group ref={root}>
+      <group
+        ref={root}
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          pokeDev()
+        }}
+        onPointerOver={() => (document.body.style.cursor = 'grab')}
+        onPointerOut={() => (document.body.style.cursor = '')}
+      >
+        {bubble && (
+          <Html position={[0.3, 2.35, 0]} portal={overlay as React.RefObject<HTMLElement>} zIndexRange={[20, 0]}>
+            <div className="w-max max-w-[220px] -translate-y-full rounded-2xl rounded-bl-none border border-ink/10 bg-paper px-3 py-2 text-sm font-bold text-ink shadow-xl">
+              {bubble}
+            </div>
+          </Html>
+        )}
         {/* thân + áo hoodie */}
         <mesh position={[0, 0.7, 0]} castShadow>
           <capsuleGeometry args={[0.45, 0.6, 8, 24]} />

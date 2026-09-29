@@ -18,6 +18,13 @@ This project establishes a direct pipeline for compassionate souls to inject fun
 * **Bug Shielding:** Higher blood sugar levels mathematically correlate with fewer production incidents on Fridays.
 * **Zero ROI:** You get 0% financial return, but maximum emotional satisfaction knowing you kept a sentient being alive.
 
+### 🎮 Interactive bits
+* **Chọc dev** trong cảnh 3D đầu trang → anh ấy nhảy lên và than đói (bong bóng thoại `drei <Html>`).
+* **Arcade** (`src/arcade/`): 2 mini-game 3D chạy **Three.js WebGPURenderer + TSL node materials**, tự fallback WebGL2:
+  * 🍙 **Ném cơm** — ngắm & ném cơm nắm/trứng vào miệng dev đang chạy qua lại (vật lý Rapier, miệng là sensor collider).
+  * 🐛 **Đập bug** — đập bug bò trên bàn phím laptop vẽ bằng shader TSL; bug vàng = 3 điểm.
+  * Điểm chơi game cộng vào thanh "no bụng" của dev; kỷ lục lưu trong trình duyệt.
+
 ### Tech stack
 Vite 8 · React 19 · TypeScript · Tailwind CSS v4 · Three.js · @react-three/fiber · drei · Rapier physics · postprocessing · Motion · Lenis · Zustand — cùng các Web API mới: scroll-driven animations, View Transitions, Popover, `@property`, `::details-content`.
 

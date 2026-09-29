@@ -8,6 +8,9 @@ type State = {
   coinDrops: { id: number; count: number }[]
   selected: Tier
   powerSaving: boolean
+  /** lần chọc dev gần nhất (hero 3D) */
+  poke: { id: number; at: number } | null
+  pokeDev: () => void
   select: (t: Tier) => void
   dropCoins: (count: number) => void
   feed: (amount: number) => void
@@ -22,6 +25,8 @@ export const useSurvival = create<State>((set) => ({
   coinDrops: [],
   selected: TIERS[1],
   powerSaving: false,
+  poke: null,
+  pokeDev: () => set((s) => ({ poke: { id: (s.poke?.id ?? 0) + 1, at: performance.now() } })),
   select: (selected) => set({ selected }),
   dropCoins: (count) =>
     set((s) => ({ coinDrops: [...s.coinDrops, { id: ++dropId, count }].slice(-6) })),

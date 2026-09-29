@@ -35,7 +35,12 @@ export default function Scene({ label }: { label: string }) {
       dpr={[1, 2]}
       camera={{ position: [0.35, 3, 6.6], fov: 40 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      onPointerDown={() => dropCoins(1)}
+      onClick={() => {
+        // bấm trúng dev là "chọc", không tính là thả xu
+        const poke = useSurvival.getState().poke
+        if (poke && performance.now() - poke.at < 400) return
+        dropCoins(1)
+      }}
       onCreated={({ camera }) => camera.lookAt(0.35, 0.55, 0)}
       aria-label={label}
     >

@@ -10,6 +10,7 @@ import { Testimonials } from './components/Testimonials'
 import { Faq } from './components/Faq'
 import { Donate } from './components/Donate'
 import { Footer } from './components/Footer'
+import { Arcade } from './components/Arcade'
 import { useSurvival } from './store'
 import { prefersReducedMotion, useGuiltTrip } from './lib/hooks'
 import { applyDocumentLang, useLang } from './i18n'
@@ -41,6 +42,7 @@ export default function App() {
         <Vitals />
         <Tiers />
         <Menu />
+        <Arcade />
         <Testimonials />
         <Donate />
         <Faq />

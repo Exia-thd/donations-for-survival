@@ -13,6 +13,8 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('@dimforge') || id.includes('rapier')) return 'physics'
+          // WebGPU/TSL chỉ dùng cho arcade → tách riêng để hero không phải tải
+          if (/three\.(webgpu|tsl)/.test(id)) return 'three-webgpu'
           if (id.includes('three') || id.includes('postprocessing')) return 'three'
         },
       },

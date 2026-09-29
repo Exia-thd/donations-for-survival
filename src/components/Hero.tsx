@@ -84,6 +84,8 @@ export function Hero() {
       </div>
 
       <div className="relative order-first h-[48svh] min-h-[340px] cursor-pointer lg:order-none lg:h-[80svh]">
+        {/* lớp overlay không bị mask — bong bóng thoại của dev được portal vào đây */}
+        <div id="scene-overlay" className="pointer-events-none absolute inset-0 z-10" />
         <div className="absolute inset-0 [mask-image:radial-gradient(closest-side,black_75%,transparent)]">
         {webgl ? (
           <Suspense fallback={<div className="grid h-full place-items-center font-mono text-sm text-muted">{t.hero.loading}</div>}>

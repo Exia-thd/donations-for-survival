@@ -49,7 +49,7 @@ To execute a donation request, scan the payload on the website using your bankin
 **Cấu hình nhận tiền:** mở [`src/config.ts`](./src/config.ts), điền `bankId` (vd `mb`, `vcb`, `tcb`…) và `accountNo`. Mã QR [VietQR](https://vietqr.io) sẽ được sinh tự động theo đúng số tiền của từng tier. Để trống thì trang hiện ô placeholder.
 
 ## 🌐 Ngôn ngữ / Language
-Trang có 2 phiên bản **Tiếng Việt** và **English**, mặc định chọn theo client: `?lang=vi|en` trên URL → lựa chọn đã lưu → ngôn ngữ/region trình duyệt (`vi`, `*-VN`) hoặc múi giờ `Asia/Ho_Chi_Minh` → còn lại là English. Người xem có thể đổi bằng nút **VI | EN** trên thanh nav. Toàn bộ nội dung chữ nằm trong [`src/i18n.ts`](./src/i18n.ts).
+Trang có 2 phiên bản **Tiếng Việt** và **English**. Mặc định: **region Việt Nam → Tiếng Việt, mọi region khác → English** (region xác định qua múi giờ `Asia/Ho_Chi_Minh`, locale có region `VN` như `vi-VN`/`en-VN`, hoặc múi giờ `Asia/Bangkok` của Windows + ngôn ngữ tiếng Việt). `?lang=vi|en` trên URL và lựa chọn người xem đã bấm luôn được ưu tiên. Người xem có thể đổi bằng nút **VI | EN** trên thanh nav. Toàn bộ nội dung chữ nằm trong [`src/i18n.ts`](./src/i18n.ts).
 
 ## 🧑‍💻 Development
 

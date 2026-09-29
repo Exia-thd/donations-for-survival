@@ -5,8 +5,32 @@ export const LANGS: Lang[] = ['vi', 'en']
 const STORAGE_KEY = 'dfs-lang'
 
 /**
+ * Client có ở region Việt Nam không — chỉ xét REGION, không xét ngôn ngữ:
+ * - múi giờ hệ thống là Việt Nam (tín hiệu vị trí đáng tin nhất trình duyệt cho biết), hoặc
+ * - locale chính của trình duyệt có region VN (vd `vi-VN`, `en-VN`), hoặc
+ * - múi giờ UTC+7 `Asia/Bangkok` (mặc định của Windows cho Hà Nội) + ngôn ngữ chính là tiếng Việt.
+ * Người dùng tiếng Việt ở nước ngoài (vd `vi` + múi giờ New York) → tiếng Anh, có thể tự bấm VI.
+ */
+export function isVietnamRegion(): boolean {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+  if (tz === 'Asia/Ho_Chi_Minh' || tz === 'Asia/Saigon') return true
+  const primary = navigator.languages?.[0] ?? navigator.language ?? ''
+  let locale: Intl.Locale | null = null
+  try {
+    locale = new Intl.Locale(primary)
+  } catch {
+    /* locale không hợp lệ */
+  }
+  if (locale?.region === 'VN') return true
+  // Windows ở VN hay để múi giờ "(UTC+07:00) Bangkok, Hanoi, Jakarta" → trình duyệt báo Asia/Bangkok;
+  // khi đó dựa thêm vào ngôn ngữ chính là tiếng Việt.
+  return tz === 'Asia/Bangkok' && locale?.language === 'vi'
+}
+
+/**
  * Chọn ngôn ngữ mặc định theo client:
- * 1. `?lang=vi|en` trên URL  2. lựa chọn đã lưu  3. region/ngôn ngữ trình duyệt hoặc múi giờ Việt Nam.
+ * 1. `?lang=vi|en` trên URL  2. lựa chọn người xem đã bấm (lưu trong trình duyệt)
+ * 3. region Việt Nam → tiếng Việt, mọi region khác → tiếng Anh.
  */
 export function detectLang(): Lang {
   try {
@@ -17,11 +41,7 @@ export function detectLang(): Lang {
   } catch {
     /* storage có thể bị chặn */
   }
-  const langs = navigator.languages?.length ? navigator.languages : [navigator.language]
-  const vnLocale = langs.some((l) => /^vi\b/i.test(l) || /-VN$/i.test(l))
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const vnTz = tz === 'Asia/Ho_Chi_Minh' || tz === 'Asia/Saigon'
-  return vnLocale || vnTz ? 'vi' : 'en'
+  return isVietnamRegion() ? 'vi' : 'en'
 }
 
 const vi = {
